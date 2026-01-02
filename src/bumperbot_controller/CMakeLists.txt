@@ -35,6 +35,20 @@ ament_target_dependencies(simple_controller
   ${Eigen_LIBRARIES}
 )
 
+# Controller with Gaussian noise
+add_executable(noisy_controller
+  src/noisy_controller.cpp
+)
+ament_target_dependencies(noisy_controller
+  rclcpp
+  geometry_msgs
+  nav_msgs
+  sensor_msgs
+  tf2
+  tf2_ros
+  ${Eigen_LIBRARIES}
+)
+
 install(
   DIRECTORY
     include
@@ -44,6 +58,7 @@ install(
 
 install(
   TARGETS
+    noisy_controller
     simple_controller
   DESTINATION
     lib/${PROJECT_NAME}
