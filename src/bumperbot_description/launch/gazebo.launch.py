@@ -61,12 +61,20 @@ def generate_launch_description():
         arguments=["-topic", "robot_description", "-name", "bumperbot"]
     )
 
-    # gz_ros2_bridge fixes the sim time error
+    '''
+    gz_ros2_bridge fixes the sim time error.  This is used to bridge Gazebo
+    and ROS 2 together by mapping the ROS 2 topics to their equivalent Gazebo
+    transport protocol.
+    '''
     gz_ros2_bridge = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
         arguments=[
             "/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock",
+            "/imu@sensor_msgs/msg/Imu[gz.msgs.IMU",
+        ],
+        remappings=[
+            ("/imu", "/imu/out")
         ]
     )
 

@@ -80,6 +80,11 @@ void SimpleController::jointCallback(const sensor_msgs::msg::JointState &msg) {
   // Change in time
   rclcpp::Duration dt = msg_time - prev_time_;
 
+  // Don't update odometry if no time change
+  if (dt.seconds() == 0) {
+    return;
+  }
+
   // Update last seen variables
   left_wheel_prev_pos_ = msg.position.at(0);
   right_wheel_prev_pos_ = msg.position.at(1);
