@@ -6,7 +6,7 @@ from launch.substitutions import LaunchConfiguration
 
 # Spawn the noisy controller
 def noisy_controller(context, *args, **kwargs):
-    # Access variables in real-time
+    use_sim_time = LaunchConfiguration("use_sim_time")
     wheel_radius = float(LaunchConfiguration("wheel_radius").perform(context))
     wheel_separation = float(LaunchConfiguration("wheel_separation").perform(context))
     wheel_radius_error = float(LaunchConfiguration("wheel_radius_error").perform(context))
@@ -18,7 +18,8 @@ def noisy_controller(context, *args, **kwargs):
         executable="noisy_controller",
         parameters=[{
             "wheel_radius": wheel_radius + wheel_radius_error,
-            "wheel_separation": wheel_separation + wheel_separation_error
+            "wheel_separation": wheel_separation + wheel_separation_error,
+            "use_sim_time": use_sim_time
         }]
     )
 
@@ -28,6 +29,10 @@ def noisy_controller(context, *args, **kwargs):
 
 
 def generate_launch_description():
+    use_sim_time_arg = DeclareLaunchArgument(
+         "use_sim_time",
+         default_value="True",
+    )
     # Wheel radius argument
     wheel_radius_arg = DeclareLaunchArgument(
         "wheel_radius",

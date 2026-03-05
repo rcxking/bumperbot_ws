@@ -3,20 +3,15 @@ controller_manager:
     update_rate: 100
     use_sim_time: true
 
+    bumperbot_controller:
+      type: diff_drive_controller/DiffDriveController
+
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
     simple_velocity_controller:
       type: velocity_controllers/JointGroupVelocityController
 
-    bumperbot_controller:
-      type: diff_drive_controller/DiffDriveController
-
-simple_velocity_controller:
-  ros__parameters:
-    joints:
-      - wheel_left_joint
-      - wheel_right_joint
 
 bumperbot_controller:
   ros__parameters:
@@ -34,10 +29,18 @@ bumperbot_controller:
     right_wheel_radius_multiplier: 1.0
     wheel_separation_multiplier: 1.0
 
-    cmd_vel_timeout: 0.25 # Seconds; if no command received in this time stop robot
+    cmd_vel_timeout: 0.5 # Seconds; if no command received in this time stop robot
+
+    # Base frame_id
     base_frame_id: base_footprint
+
+    # Publish limited velocity
     publish_limited_velocity: true
+
+    # Publish wheel data
     publish_wheel_data: true
+
+    # Publish to TF directly or not
     enable_odom_tf: true
 
     # Velocity limits
@@ -60,3 +63,9 @@ bumperbot_controller:
         max_acceleration: 1.5 # rad/s^2
         min_acceleration: -1.5 # rad/s^2
         has_jerk_limits: false
+
+simple_velocity_controller:
+  ros__parameters:
+    joints:
+      - wheel_left_joint
+      - wheel_right_joint
